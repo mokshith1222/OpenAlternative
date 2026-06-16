@@ -1,18 +1,27 @@
 import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { toolsData } from '../data/tools';
+import { useState, useEffect } from 'react';
+import { supabase } from '../supabaseClient';
 import ToolCard from '../components/ToolCard';
 import { ArrowLeft } from 'lucide-react';
 
 export default function AlternativePage() {
   const { name } = useParams();
+  const [alternatives, setAlternatives] = useState([]);
+  const [loading, setLoading] = useState(true);
   
-  // Clean up the URL parameter (e.g. "adobe-premiere" to "Adobe Premiere", or handle lowercase matching)
   const normalizedSearch = name.replace(/-/g, ' ').toLowerCase();
   
-  const alternatives = toolsData.filter(
-    tool => tool.replaces.toLowerCase() === normalizedSearch
-  );
+  useEffect(() => {
+    async function fetchTools() {
+      const { data } = await supabase.from('tools').select('*');
+      if (data) {
+        setAlternatives(data.filter(tool => tool.replaces.toLowerCase() === normalizedSearch));
+      }
+      setLoading(false);
+    }
+    fetchTools();
+  }, [normalizedSearch]);
 
   const displayTitle = alternatives.length > 0 ? alternatives[0].replaces : name.replace(/-/g, ' ');
 
@@ -44,7 +53,9 @@ export default function AlternativePage() {
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1.5rem' }}>
-        {alternatives.length > 0 ? (
+        {loading ? (
+           <p style={{ color: 'var(--text-muted)' }}>Loading alternatives...</p>
+        ) : alternatives.length > 0 ? (
           alternatives.map(tool => (
             <ToolCard key={tool.id} tool={tool} />
           ))

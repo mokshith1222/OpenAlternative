@@ -1,11 +1,26 @@
 import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { toolsData } from '../data/tools';
+import { useState, useEffect } from 'react';
+import { supabase } from '../supabaseClient';
 import { ArrowLeft, Star, Server, ExternalLink } from 'lucide-react';
 
 export default function ToolDetailPage() {
   const { id } = useParams();
-  const tool = toolsData.find(t => t.id === id);
+  const [tool, setTool] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchTool() {
+      const { data } = await supabase.from('tools').select('*').eq('id', id).single();
+      if (data) setTool(data);
+      setLoading(false);
+    }
+    fetchTool();
+  }, [id]);
+
+  if (loading) {
+    return <div className="container" style={{ padding: '6rem 0', textAlign: 'center' }}><p>Loading...</p></div>;
+  }
 
   if (!tool) {
     return (

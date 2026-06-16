@@ -1,22 +1,64 @@
-import { useState, useMemo } from 'react';
-import { toolsData } from '../data/tools';
+import { useState, useMemo, useEffect } from 'react';
+import { supabase } from '../supabaseClient';
 import HeroSearch from '../components/HeroSearch';
 import CategoryPills from '../components/CategoryPills';
 import FeaturedAlternative from '../components/FeaturedAlternative';
 import ToolCard from '../components/ToolCard';
+import { getBroadCategory } from '../utils/categoryMapping';
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState('All');
+  const [toolsData, setToolsData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [categories, setCategories] = useState(['All']);
+  const [displayCount, setDisplayCount] = useState(50);
+
+  useEffect(() => {
+    async function fetchTools() {
+      let allData = [];
+      let page = 0;
+      let hasMore = true;
+      
+      // Supabase has a default 1000 row limit. We must paginate to fetch all 1500+ tools.
+      while (hasMore) {
+        const { data } = await supabase.from('tools').select('*').range(page * 1000, (page + 1) * 1000 - 1);
+        if (data && data.length > 0) {
+          allData = [...allData, ...data];
+          if (data.length < 1000) hasMore = false;
+          else page++;
+        } else {
+          hasMore = false;
+        }
+      }
+
+      if (allData.length > 0) {
+        // Map granular categories to broad categories on the fly
+        const mappedData = allData.map(t => ({ 
+          ...t, 
+          broadCategory: getBroadCategory(t.category) 
+        }));
+        setToolsData(mappedData);
+        
+        // Compute unique broad categories
+        const uniqueCategories = Array.from(new Set(mappedData.map(t => t.broadCategory))).sort();
+        setCategories(['All', ...uniqueCategories]);
+      }
+      setLoading(false);
+    }
+    fetchTools();
+  }, []);
 
   const filteredTools = useMemo(() => {
     return toolsData.filter(tool => {
-      const matchesSearch = tool.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                            tool.replaces.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchesCategory = activeCategory === 'All' || tool.category === activeCategory;
+      const searchLower = searchQuery.toLowerCase();
+      const matchesSearch = (tool.name?.toLowerCase() || '').includes(searchLower) || 
+                            (tool.replaces?.toLowerCase() || '').includes(searchLower) ||
+                            (tool.description?.toLowerCase() || '').includes(searchLower);
+      const matchesCategory = activeCategory === 'All' || tool.broadCategory === activeCategory;
       return matchesSearch && matchesCategory;
     });
-  }, [searchQuery, activeCategory]);
+  }, [toolsData, searchQuery, activeCategory]);
 
   return (
     <div className="container">
@@ -39,18 +81,33 @@ export default function Home() {
         </div>
       )}
 
+      {/* SEO & AdSense Content Block */}
       {!searchQuery && activeCategory === 'All' && (
+        <div className="card-premium" style={{ padding: '2.5rem', marginBottom: '4rem', backgroundColor: 'var(--card-bg)' }}>
+          <h2 style={{ fontSize: '1.8rem', marginBottom: '1rem', color: 'var(--text-primary)' }}>Why Use Open Source Software?</h2>
+          <p style={{ fontSize: '1.1rem', color: 'var(--text-muted)', lineHeight: '1.8', marginBottom: '1.5rem' }}>
+            OpenAlternative is the internet's most comprehensive directory for discovering open-source alternatives to proprietary SaaS. As software subscription costs continue to rise and data privacy concerns grow, switching to self-hostable tools has never been more important. Open-source software gives you total ownership over your data, eliminates vendor lock-in, and allows you to customize the codebase to fit your exact business needs.
+          </p>
+          <p style={{ fontSize: '1.1rem', color: 'var(--text-muted)', lineHeight: '1.8' }}>
+            Whether you are looking for an open-source CRM, a privacy-focused analytics platform, or a self-hosted project management tool, our community-curated database maps thousands of commercial products to their free, open-source counterparts. Start taking back control of your software stack today.
+          </p>
+        </div>
+      )}
+
+      {!searchQuery && activeCategory === 'All' && toolsData.length > 0 && toolsData.find(t => t.id === 'appflowy') && (
         <FeaturedAlternative replaces="Notion" tool={toolsData.find(t => t.id === 'appflowy')} />
       )}
 
       <div style={{ marginBottom: '2rem' }}>
         <h2 style={{ fontSize: '1.5rem', marginBottom: '1.5rem' }}>Browse by Category</h2>
-        <CategoryPills activeCategory={activeCategory} setActiveCategory={setActiveCategory} />
+        <CategoryPills categories={categories} activeCategory={activeCategory} setActiveCategory={setActiveCategory} />
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1.5rem' }}>
-        {filteredTools.length > 0 ? (
-          filteredTools.map(tool => (
+        {loading ? (
+          <p style={{ color: 'var(--text-muted)' }}>Loading tools...</p>
+        ) : filteredTools.length > 0 ? (
+          filteredTools.slice(0, displayCount).map(tool => (
             <ToolCard key={tool.id} tool={tool} />
           ))
         ) : (
@@ -66,6 +123,35 @@ export default function Home() {
           </div>
         )}
       </div>
+
+      {filteredTools.length > displayCount && (
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '3rem' }}>
+          <button 
+            onClick={() => setDisplayCount(prev => prev + 50)}
+            style={{ 
+              backgroundColor: 'rgba(124, 58, 237, 0.1)', 
+              color: 'var(--accent)', 
+              border: '1px solid var(--accent)', 
+              borderRadius: '9999px', 
+              padding: '0.75rem 2rem', 
+              fontSize: '1rem', 
+              fontWeight: '600', 
+              cursor: 'pointer',
+              transition: 'all 0.2s'
+            }}
+            onMouseOver={e => {
+              e.currentTarget.style.backgroundColor = 'var(--accent)';
+              e.currentTarget.style.color = '#fff';
+            }}
+            onMouseOut={e => {
+              e.currentTarget.style.backgroundColor = 'rgba(124, 58, 237, 0.1)';
+              e.currentTarget.style.color = 'var(--accent)';
+            }}
+          >
+            Load More Tools ({filteredTools.length - displayCount} remaining)
+          </button>
+        </div>
+      )}
     </div>
   );
 }

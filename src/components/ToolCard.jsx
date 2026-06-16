@@ -30,7 +30,7 @@ export default function ToolCard({ tool }) {
       </div>
       
       <Link 
-        to={`/alternative/${tool.replaces.toLowerCase().replace(/\s+/g, '-')}`}
+        to={`/tool/${tool.id}`}
         style={{
           marginTop: 'auto',
           padding: '0.75rem',
@@ -54,7 +54,7 @@ export default function ToolCard({ tool }) {
           e.currentTarget.style.color = 'var(--accent)';
         }}
       >
-        View Alternatives <ExternalLink size={16} />
+        View {tool.name} <ExternalLink size={16} />
       </Link>
     </div>
   );

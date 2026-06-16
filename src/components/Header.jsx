@@ -1,20 +1,91 @@
-import { Link } from 'react-router-dom';
-import { Star } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Code, MessageSquare, Search, Plus } from 'lucide-react';
+import { useState } from 'react';
 
 export default function Header() {
+  const [searchQuery, setSearchQuery] = useState('');
+  const navigate = useNavigate();
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      // Navigate to home and pass search query via state or URL params
+      // Since Home.jsx handles search internally via state right now, 
+      // a global search would either need context or redirect to a /search page.
+      // For now, we will just navigate home.
+      navigate('/');
+      // In a real app, we'd pass ?q=searchQuery
+    }
+  };
+
   return (
-    <header style={{ padding: '1.5rem 0', borderBottom: '1px solid var(--card-border)' }}>
+    <header style={{ 
+      position: 'sticky', 
+      top: 0, 
+      zIndex: 100,
+      padding: '1rem 0', 
+      backgroundColor: 'rgba(10, 10, 10, 0.75)',
+      backdropFilter: 'blur(12px)',
+      WebkitBackdropFilter: 'blur(12px)',
+      borderBottom: '1px solid rgba(255,255,255,0.05)',
+      transition: 'all 0.3s ease'
+    }}>
       <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Link to="/" style={{ fontSize: '1.5rem', fontWeight: '800', color: 'var(--text-primary)' }}>
-          Open<span style={{ color: 'var(--accent)' }}>Alternative</span>
+        
+        {/* Brand Logo */}
+        <Link to="/" style={{ fontSize: '1.5rem', fontWeight: '800', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <div style={{ width: '28px', height: '28px', background: 'linear-gradient(135deg, var(--accent) 0%, #3b82f6 100%)', borderRadius: '6px' }}></div>
+          Open<span style={{ color: 'var(--text-muted)' }}>Alternative</span>
         </Link>
-        <nav style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
-          <a href="mailto:submit@openalternative.example.com?subject=New%20Tool%20Submission" style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }} className="hover:text-white transition-colors">Submit Tool</a>
-          <a href="https://github.com/openalternative" style={{ color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '0.5rem' }} className="hover:text-white transition-colors">
-            <Star size={20} />
-            <span style={{ fontSize: '0.9rem' }}>Star on GitHub</span>
-          </a>
+        
+        {/* Center Nav */}
+        <nav style={{ display: 'none', gap: '2rem', alignItems: 'center' }} className="md:flex">
+          <Link to="/" style={{ color: 'var(--text-primary)', fontSize: '0.95rem', fontWeight: '500' }}>Discover</Link>
+          <a href="#" style={{ color: 'var(--text-muted)', fontSize: '0.95rem', fontWeight: '500', transition: 'color 0.2s' }} onMouseOver={e => e.target.style.color = 'var(--text-primary)'} onMouseOut={e => e.target.style.color = 'var(--text-muted)'}>Categories</a>
+          <a href="#" style={{ color: 'var(--text-muted)', fontSize: '0.95rem', fontWeight: '500', transition: 'color 0.2s' }} onMouseOver={e => e.target.style.color = 'var(--text-primary)'} onMouseOut={e => e.target.style.color = 'var(--text-muted)'}>Trending</a>
         </nav>
+
+        {/* Right Nav & Actions */}
+        <div style={{ display: 'flex', gap: '1.25rem', alignItems: 'center' }}>
+          
+          {/* Socials */}
+          <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', borderRight: '1px solid var(--card-border)', paddingRight: '1.25rem' }}>
+            <a href="https://twitter.com" target="_blank" rel="noreferrer" style={{ color: 'var(--text-muted)', transition: 'color 0.2s' }} onMouseOver={e => e.target.style.color = '#1DA1F2'} onMouseOut={e => e.target.style.color = 'var(--text-muted)'}>
+              <MessageSquare size={20} />
+            </a>
+            <a href="https://github.com/openalternative" target="_blank" rel="noreferrer" style={{ color: 'var(--text-muted)', transition: 'color 0.2s' }} onMouseOver={e => e.target.style.color = 'var(--text-primary)'} onMouseOut={e => e.target.style.color = 'var(--text-muted)'}>
+              <Code size={20} />
+            </a>
+          </div>
+
+          {/* CTA */}
+          <Link 
+            to="/submit"
+            style={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: '0.5rem',
+              backgroundColor: 'var(--accent)', 
+              color: '#ffffff', 
+              padding: '0.6rem 1.2rem', 
+              borderRadius: '9999px',
+              fontSize: '0.9rem',
+              fontWeight: '600',
+              transition: 'all 0.2s',
+              boxShadow: '0 4px 14px 0 rgba(124, 58, 237, 0.39)'
+            }}
+            onMouseOver={e => {
+              e.currentTarget.style.transform = 'translateY(-1px)';
+              e.currentTarget.style.boxShadow = '0 6px 20px rgba(124, 58, 237, 0.5)';
+            }}
+            onMouseOut={e => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = '0 4px 14px 0 rgba(124, 58, 237, 0.39)';
+            }}
+          >
+            <Plus size={16} /> Submit Tool
+          </Link>
+        </div>
       </div>
     </header>
   );

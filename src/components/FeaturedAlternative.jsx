@@ -2,6 +2,8 @@ import { Star, Server, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function FeaturedAlternative({ replaces, tool }) {
+  if (!tool) return null;
+  
   return (
     <div className="card-premium" style={{ padding: '2.5rem', marginBottom: '3rem', display: 'flex', flexDirection: 'column', gap: '1.5rem', background: 'linear-gradient(145deg, var(--card-bg) 0%, rgba(124, 58, 237, 0.08) 100%)' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>

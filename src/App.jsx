@@ -4,6 +4,10 @@ import Footer from './components/Footer';
 import Home from './pages/Home';
 import AlternativePage from './pages/AlternativePage';
 import ToolDetailPage from './pages/ToolDetailPage';
+import SubmitPage from './pages/SubmitPage';
+import AboutPage from './pages/AboutPage';
+import PrivacyPage from './pages/PrivacyPage';
+import TermsPage from './pages/TermsPage';
 
 function App() {
   return (
@@ -14,6 +18,10 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/alternative/:name" element={<AlternativePage />} />
           <Route path="/tool/:id" element={<ToolDetailPage />} />
+          <Route path="/submit" element={<SubmitPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/privacy" element={<PrivacyPage />} />
+          <Route path="/terms" element={<TermsPage />} />
         </Routes>
       </main>
       <Footer />

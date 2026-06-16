@@ -1,6 +1,4 @@
-export default function CategoryPills({ activeCategory, setActiveCategory }) {
-  const categories = ['All', 'Productivity', 'Design', 'Development', 'Marketing', 'Analytics', 'Communication', 'Project Management'];
-
+export default function CategoryPills({ categories, activeCategory, setActiveCategory }) {
   return (
     <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', justifyContent: 'center', marginBottom: '3rem' }}>
       {categories.map(cat => (
