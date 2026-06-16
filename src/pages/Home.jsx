@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect } from 'react';
 import { supabase } from '../supabaseClient';
+import { useSearchParams } from 'react-router-dom';
 import HeroSearch from '../components/HeroSearch';
 import CategoryPills from '../components/CategoryPills';
 import FeaturedAlternative from '../components/FeaturedAlternative';
@@ -8,11 +9,20 @@ import { getBroadCategory } from '../utils/categoryMapping';
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
-  const [activeCategory, setActiveCategory] = useState('All');
+  const [searchParams] = useSearchParams();
+  const sortParam = searchParams.get('sort');
+  const categoryParam = searchParams.get('category');
+
+  const [activeCategory, setActiveCategory] = useState(categoryParam || 'All');
   const [toolsData, setToolsData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState(['All']);
   const [displayCount, setDisplayCount] = useState(50);
+
+  // Sync category param with state if it changes
+  useEffect(() => {
+    if (categoryParam) setActiveCategory(categoryParam);
+  }, [categoryParam]);
 
   useEffect(() => {
     async function fetchTools() {
@@ -50,21 +60,30 @@ export default function Home() {
   }, []);
 
   const filteredTools = useMemo(() => {
-    return toolsData.filter(tool => {
+    let result = toolsData.filter(tool => {
       const searchLower = searchQuery.toLowerCase();
       const matchesSearch = (tool.name?.toLowerCase() || '').includes(searchLower) || 
                             (tool.replaces?.toLowerCase() || '').includes(searchLower) ||
                             (tool.description?.toLowerCase() || '').includes(searchLower);
-      const matchesCategory = activeCategory === 'All' || tool.broadCategory === activeCategory;
+      let matchesCategory = activeCategory === 'All' || tool.broadCategory === activeCategory;
+      if (sortParam === 'trending') {
+        matchesCategory = true; // Show all categories if trending
+      }
       return matchesSearch && matchesCategory;
     });
-  }, [toolsData, searchQuery, activeCategory]);
+
+    if (sortParam === 'trending') {
+      result.sort((a, b) => (b.upvotes || 0) - (a.upvotes || 0));
+    }
+
+    return result;
+  }, [toolsData, searchQuery, activeCategory, sortParam]);
 
   return (
     <div className="container">
       <HeroSearch searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
       
-      {!searchQuery && activeCategory === 'All' && (
+      {!searchQuery && activeCategory === 'All' && sortParam !== 'trending' && (
         <div style={{ display: 'flex', justifyContent: 'center', gap: '4rem', marginBottom: '4rem', padding: '2rem 0', borderTop: '1px solid var(--card-border)', borderBottom: '1px solid var(--card-border)' }}>
           <div style={{ textAlign: 'center' }}>
             <div style={{ fontSize: '2rem', fontWeight: '800', color: 'var(--text-primary)' }}>15+</div>
@@ -82,7 +101,7 @@ export default function Home() {
       )}
 
       {/* SEO & AdSense Content Block */}
-      {!searchQuery && activeCategory === 'All' && (
+      {!searchQuery && activeCategory === 'All' && sortParam !== 'trending' && (
         <div className="card-premium" style={{ padding: '2.5rem', marginBottom: '4rem', backgroundColor: 'var(--card-bg)' }}>
           <h2 style={{ fontSize: '1.8rem', marginBottom: '1rem', color: 'var(--text-primary)' }}>Why Use Open Source Software?</h2>
           <p style={{ fontSize: '1.1rem', color: 'var(--text-muted)', lineHeight: '1.8', marginBottom: '1.5rem' }}>
@@ -94,13 +113,24 @@ export default function Home() {
         </div>
       )}
 
-      {!searchQuery && activeCategory === 'All' && toolsData.length > 0 && toolsData.find(t => t.id === 'appflowy') && (
+      {!searchQuery && activeCategory === 'All' && sortParam !== 'trending' && toolsData.length > 0 && toolsData.find(t => t.id === 'appflowy') && (
         <FeaturedAlternative replaces="Notion" tool={toolsData.find(t => t.id === 'appflowy')} />
       )}
 
       <div style={{ marginBottom: '2rem' }}>
-        <h2 style={{ fontSize: '1.5rem', marginBottom: '1.5rem' }}>Browse by Category</h2>
-        <CategoryPills categories={categories} activeCategory={activeCategory} setActiveCategory={setActiveCategory} />
+        {sortParam !== 'trending' && (
+          <>
+            <h2 style={{ fontSize: '1.5rem', marginBottom: '1.5rem' }}>Browse by Category</h2>
+            <CategoryPills categories={categories} activeCategory={activeCategory} setActiveCategory={setActiveCategory} />
+          </>
+        )}
+        
+        {sortParam === 'trending' && (
+          <div style={{ marginBottom: '2rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <h2 style={{ fontSize: '2rem', color: 'var(--text-primary)' }}>Trending Alternatives</h2>
+            <span style={{ color: 'var(--accent)', backgroundColor: 'rgba(124, 58, 237, 0.1)', padding: '0.25rem 0.75rem', borderRadius: '9999px', fontSize: '0.85rem', fontWeight: '600' }}>Most Upvoted</span>
+          </div>
+        )}
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1.5rem' }}>

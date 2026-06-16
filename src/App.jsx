@@ -8,6 +8,7 @@ import SubmitPage from './pages/SubmitPage';
 import AboutPage from './pages/AboutPage';
 import PrivacyPage from './pages/PrivacyPage';
 import TermsPage from './pages/TermsPage';
+import CategoriesPage from './pages/CategoriesPage';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/alternative/:name" element={<AlternativePage />} />
           <Route path="/tool/:id" element={<ToolDetailPage />} />
           <Route path="/submit" element={<SubmitPage />} />
+          <Route path="/categories" element={<CategoriesPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/privacy" element={<PrivacyPage />} />
           <Route path="/terms" element={<TermsPage />} />

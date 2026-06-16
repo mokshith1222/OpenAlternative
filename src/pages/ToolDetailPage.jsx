@@ -2,20 +2,42 @@ import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { useState, useEffect } from 'react';
 import { supabase } from '../supabaseClient';
-import { ArrowLeft, Star, Server, ExternalLink } from 'lucide-react';
+import { ArrowLeft, Star, Server, ExternalLink, FileText } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
+import rehypeRaw from 'rehype-raw';
 
 export default function ToolDetailPage() {
   const { id } = useParams();
   const [tool, setTool] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [readme, setReadme] = useState(null);
+  const [readmeLoading, setReadmeLoading] = useState(false);
 
   useEffect(() => {
-    async function fetchTool() {
+    async function fetchToolAndReadme() {
       const { data } = await supabase.from('tools').select('*').eq('id', id).single();
-      if (data) setTool(data);
+      if (data) {
+        setTool(data);
+        
+        // Fetch README if githubRepo exists
+        if (data.githubRepo && data.githubRepo !== 'N/A') {
+          setReadmeLoading(true);
+          try {
+            const res = await fetch(`https://api.github.com/repos/${data.githubRepo}/readme`);
+            const json = await res.json();
+            if (json.content) {
+              const decoded = atob(json.content);
+              setReadme(decoded);
+            }
+          } catch (e) {
+            console.error('Failed to fetch README', e);
+          }
+          setReadmeLoading(false);
+        }
+      }
       setLoading(false);
     }
-    fetchTool();
+    fetchToolAndReadme();
   }, [id]);
 
   if (loading) {
@@ -62,8 +84,8 @@ export default function ToolDetailPage() {
           <span style={{ color: 'var(--accent)', fontWeight: '600', fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '1rem', display: 'block' }}>
             Replaces {tool.replaces}
           </span>
-          <h1 style={{ fontSize: '3.5rem', marginBottom: '1rem', letterSpacing: '-0.02em' }}>{tool.name}</h1>
-          <p style={{ fontSize: '1.25rem', color: 'var(--text-muted)', maxWidth: '800px', lineHeight: 1.6 }}>{tool.description}</p>
+          <h1 style={{ fontSize: '2.5rem', marginBottom: '1rem', letterSpacing: '-0.02em', lineHeight: 1.2 }}>{tool.name}</h1>
+          <p style={{ fontSize: '1.15rem', color: 'var(--text-muted)', maxWidth: '800px', lineHeight: 1.6 }}>{tool.description}</p>
         </div>
 
         <div style={{ display: 'flex', gap: '2rem', padding: '2rem 0', borderTop: '1px solid var(--card-border)', borderBottom: '1px solid var(--card-border)' }}>
@@ -85,30 +107,65 @@ export default function ToolDetailPage() {
           )}
         </div>
 
-        <a 
-          href={`https://github.com/search?q=${tool.name}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '0.5rem',
-            backgroundColor: 'var(--text-primary)',
-            color: 'var(--bg-color)',
-            padding: '1rem 2rem',
-            borderRadius: '8px',
-            fontWeight: '600',
-            alignSelf: 'flex-start',
-            fontSize: '1.1rem',
-            transition: 'opacity 0.2s'
-          }}
-          onMouseOver={e => e.currentTarget.style.opacity = '0.9'}
-          onMouseOut={e => e.currentTarget.style.opacity = '1'}
-        >
-          View on GitHub <ExternalLink size={20} />
-        </a>
+        <div style={{ display: 'flex', gap: '1rem' }}>
+          <a 
+            href={tool.githubRepo && tool.githubRepo !== 'N/A' ? `https://github.com/${tool.githubRepo}` : `https://github.com/search?q=${tool.name}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '0.5rem',
+              backgroundColor: 'var(--text-primary)',
+              color: 'var(--bg-color)',
+              padding: '1rem 2rem',
+              borderRadius: '8px',
+              fontWeight: '600',
+              fontSize: '1.1rem',
+              transition: 'opacity 0.2s'
+            }}
+            onMouseOver={e => e.currentTarget.style.opacity = '0.9'}
+            onMouseOut={e => e.currentTarget.style.opacity = '1'}
+          >
+            View on GitHub <ExternalLink size={20} />
+          </a>
+        </div>
       </div>
+
+      {/* GitHub README Section */}
+      {tool.githubRepo && tool.githubRepo !== 'N/A' && (
+        <div style={{ marginTop: '4rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '2rem' }}>
+            <FileText size={28} color="var(--accent)" />
+            <h2 style={{ fontSize: '2rem', color: 'var(--text-primary)' }}>Documentation</h2>
+          </div>
+          
+          <div className="card-premium readme-container" style={{ padding: '3rem', backgroundColor: 'var(--card-bg)', color: 'var(--text-primary)', lineHeight: 1.8 }}>
+            {readmeLoading ? (
+              <p style={{ color: 'var(--text-muted)' }}>Fetching live documentation from GitHub...</p>
+            ) : readme ? (
+              <ReactMarkdown 
+                rehypePlugins={[rehypeRaw]}
+                components={{
+                  img: ({node, ...props}) => <img style={{ maxWidth: '100%', borderRadius: '8px', margin: '1rem 0' }} {...props} />,
+                  h1: ({node, ...props}) => <h1 style={{ fontSize: '2.5rem', marginTop: '2rem', marginBottom: '1rem', borderBottom: '1px solid var(--card-border)', paddingBottom: '0.5rem' }} {...props} />,
+                  h2: ({node, ...props}) => <h2 style={{ fontSize: '2rem', marginTop: '2rem', marginBottom: '1rem', borderBottom: '1px solid var(--card-border)', paddingBottom: '0.5rem' }} {...props} />,
+                  h3: ({node, ...props}) => <h3 style={{ fontSize: '1.5rem', marginTop: '1.5rem', marginBottom: '1rem' }} {...props} />,
+                  a: ({node, ...props}) => <a style={{ color: 'var(--accent)', textDecoration: 'underline' }} {...props} />,
+                  pre: ({node, ...props}) => <pre style={{ backgroundColor: '#000', padding: '1.5rem', borderRadius: '8px', overflowX: 'auto', margin: '1.5rem 0' }} {...props} />,
+                  code: ({node, inline, ...props}) => inline ? <code style={{ backgroundColor: 'rgba(255,255,255,0.1)', padding: '0.2rem 0.4rem', borderRadius: '4px', fontSize: '0.9em' }} {...props} /> : <code {...props} />,
+                  blockquote: ({node, ...props}) => <blockquote style={{ borderLeft: '4px solid var(--accent)', paddingLeft: '1rem', color: 'var(--text-muted)', margin: '1.5rem 0' }} {...props} />
+                }}
+              >
+                {readme}
+              </ReactMarkdown>
+            ) : (
+              <p style={{ color: 'var(--text-muted)' }}>No documentation found for this repository.</p>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
