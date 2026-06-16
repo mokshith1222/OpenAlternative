@@ -24,10 +24,17 @@ export default function ToolDetailPage() {
           setReadmeLoading(true);
           try {
             const res = await fetch(`https://api.github.com/repos/${data.githubRepo}/readme`);
-            const json = await res.json();
-            if (json.content) {
-              const decoded = atob(json.content);
-              setReadme(decoded);
+            if (res.ok) {
+              const json = await res.json();
+              if (json.download_url) {
+                const rawRes = await fetch(json.download_url);
+                if (rawRes.ok) {
+                  const text = await rawRes.text();
+                  setReadme(text);
+                }
+              }
+            } else if (res.status === 403) {
+              setReadme("GitHub API rate limit exceeded. Please try again later.");
             }
           } catch (e) {
             console.error('Failed to fetch README', e);
