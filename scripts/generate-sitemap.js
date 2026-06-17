@@ -19,7 +19,7 @@ if (!supabaseUrl || !supabaseAnonKey) {
 
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-const BASE_URL = 'https://openalternative.example.com'; // Replace with actual domain when launching
+const BASE_URL = 'https://openalternative-delta.vercel.app'; // Replace with actual domain when launching
 
 async function generateSitemap() {
   console.log('Fetching tools for sitemap...');

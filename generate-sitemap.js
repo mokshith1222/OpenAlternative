@@ -1,7 +1,7 @@
 import fs from 'fs';
 import { toolsData } from './src/data/tools.js';
 
-const DOMAIN = 'https://openalternative.example.com';
+const DOMAIN = 'https://openalternative-delta.vercel.app';
 
 const generateSitemap = () => {
   // Get unique tools that are being replaced
