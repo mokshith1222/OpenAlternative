@@ -7,6 +7,7 @@ import NewsletterForm from '../components/NewsletterForm';
 import FeaturedAlternative from '../components/FeaturedAlternative';
 import ToolCard from '../components/ToolCard';
 import { getBroadCategory } from '../utils/categoryMapping';
+import { Helmet } from 'react-helmet-async';
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -107,6 +108,11 @@ export default function Home() {
 
   return (
     <div className="container">
+      <Helmet>
+        <title>OpenAlternative | 1500+ Open Source Alternatives</title>
+        <meta name="description" content="Search our directory of 1,500+ commercial products and find the best free, self-hosted open-source replacements." />
+      </Helmet>
+      
       <HeroSearch searchQuery={searchQuery} setSearchQuery={setSearchQuery} onSubmit={handleSearchSubmit} />
       
       {!searchQuery && activeCategory === 'All' && sortParam !== 'trending' && (

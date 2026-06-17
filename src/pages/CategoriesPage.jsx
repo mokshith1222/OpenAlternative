@@ -20,8 +20,8 @@ export default function CategoriesPage() {
   return (
     <div className="container" style={{ padding: '4rem 0' }}>
       <Helmet>
-        <title>Categories | OpenAlternative</title>
-        <meta name="description" content="Browse open source alternatives by category." />
+        <title>Software Categories | Open Source Directory</title>
+        <meta name="description" content="Browse open-source software by category. Find the best self-hostable CRM, analytics, DevOps, and project management tools." />
       </Helmet>
 
       <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
