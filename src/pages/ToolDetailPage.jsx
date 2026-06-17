@@ -41,7 +41,6 @@ export default function ToolDetailPage() {
             const json = await res.json();
             
             if (json.content) {
-              // Decode base64, handling potential unicode characters gracefully
               try {
                 const decoded = decodeURIComponent(escape(atob(json.content)));
                 setReadme(decoded);
@@ -49,8 +48,23 @@ export default function ToolDetailPage() {
                 setReadme(atob(json.content));
               }
             } else if (json.message && json.message.toLowerCase().includes('rate limit')) {
-              setReadme("GitHub API rate limit exceeded. Please try again later.");
+              // Fallback to direct raw fetching to bypass API limits
+              try {
+                let rawRes = await fetch(`https://raw.githubusercontent.com/${data.githubRepo}/main/README.md`);
+                if (!rawRes.ok) {
+                  rawRes = await fetch(`https://raw.githubusercontent.com/${data.githubRepo}/master/README.md`);
+                }
+                if (rawRes.ok) {
+                  const text = await rawRes.text();
+                  setReadme(text);
+                } else {
+                  setReadme("GitHub API rate limit exceeded. Please try again later.");
+                }
+              } catch (fallbackErr) {
+                setReadme("GitHub API rate limit exceeded. Please try again later.");
+              }
             }
+
           } catch (e) {
             console.error('Failed to fetch README', e);
           }
