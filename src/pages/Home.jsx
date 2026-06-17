@@ -135,7 +135,9 @@ export default function Home() {
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1.5rem' }}>
         {loading ? (
-          <p style={{ color: 'var(--text-muted)' }}>Loading tools...</p>
+          Array.from({ length: 12 }).map((_, i) => (
+            <div key={i} className="card-premium skeleton" style={{ height: '300px', width: '100%' }}></div>
+          ))
         ) : filteredTools.length > 0 ? (
           filteredTools.slice(0, displayCount).map(tool => (
             <ToolCard key={tool.id} tool={tool} />

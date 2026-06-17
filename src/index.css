@@ -47,6 +47,18 @@ a {
   animation: fadeIn 0.4s ease-out forwards;
 }
 
+@keyframes shimmer {
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, #111113 25%, #1a1a1f 50%, #111113 75%);
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite linear;
+  border-radius: 8px;
+}
+
 /* Card glassmorphism subtle */
 .card-premium {
   background-color: var(--card-bg);

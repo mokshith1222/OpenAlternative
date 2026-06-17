@@ -1,16 +1,14 @@
 import { useState, useEffect, useRef } from 'react';
 
 export default function HeroSearch({ searchQuery, setSearchQuery }) {
-  const [placeholder, setPlaceholder] = useState('Search Notion...');
+  const [currentToolIndex, setCurrentToolIndex] = useState(0);
   const inputRef = useRef(null);
-  const tools = ['Notion', 'Jira', 'Photoshop', 'Slack', 'Figma', 'Trello'];
+  const tools = ['Shopify', 'Notion', 'Jira', 'Slack', 'Figma', 'Salesforce', 'Airtable', 'Zendesk'];
   
   useEffect(() => {
-    let i = 0;
     const interval = setInterval(() => {
-      i = (i + 1) % tools.length;
-      setPlaceholder(`Search ${tools[i]}...`);
-    }, 2000);
+      setCurrentToolIndex((prev) => (prev + 1) % tools.length);
+    }, 2500);
     return () => clearInterval(interval);
   }, []);
 
@@ -29,13 +27,17 @@ export default function HeroSearch({ searchQuery, setSearchQuery }) {
   }, []);
 
   return (
-    <div style={{ textAlign: 'center', padding: '6rem 0', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      <h1 style={{ fontSize: '3.5rem', marginBottom: '1.5rem', lineHeight: 1.1 }}>
-        Find Open Source Alternatives<br/>
-        <span style={{ color: 'var(--text-muted)' }}>to Expensive Software</span>
+    <div style={{ textAlign: 'center', padding: '8rem 0 6rem 0', display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative' }}>
+      
+      {/* Background glow */}
+      <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '100%', maxWidth: '800px', height: '400px', background: 'radial-gradient(circle, rgba(124, 58, 237, 0.15) 0%, rgba(0,0,0,0) 70%)', zIndex: -1, pointerEvents: 'none' }}></div>
+
+      <h1 style={{ fontSize: '4.5rem', marginBottom: '1.5rem', lineHeight: 1.1, fontWeight: '800', letterSpacing: '-0.03em' }}>
+        Find the best open source<br/>
+        alternative to <span style={{ color: 'var(--accent)', transition: 'opacity 0.3s ease-in-out' }}>{tools[currentToolIndex]}</span>
       </h1>
-      <p style={{ fontSize: '1.2rem', color: 'var(--text-muted)', marginBottom: '3rem', maxWidth: '600px' }}>
-        Discover free, self-hostable and open-source replacements for popular SaaS products.
+      <p style={{ fontSize: '1.35rem', color: 'var(--text-muted)', marginBottom: '3.5rem', maxWidth: '650px', lineHeight: 1.6 }}>
+        Discover and deploy free, self-hostable replacements for the world's most expensive proprietary software.
       </p>
       <div style={{ width: '100%', maxWidth: '600px', position: 'relative' }}>
         <input 
@@ -43,11 +45,11 @@ export default function HeroSearch({ searchQuery, setSearchQuery }) {
           type="text" 
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder={placeholder}
+          placeholder="Search for any software or category..."
           style={{
             width: '100%',
-            padding: '1.25rem 2rem',
-            fontSize: '1.2rem',
+            padding: '1.5rem 2.5rem',
+            fontSize: '1.25rem',
             backgroundColor: 'var(--card-bg)',
             border: '1px solid var(--card-border)',
             borderRadius: '100px',

@@ -53,9 +53,16 @@ export default function ToolCard({ tool }) {
             <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>Replaces {tool.replaces}</span>
           </div>
         </div>
-        <span style={{ backgroundColor: 'rgba(255,255,255,0.08)', padding: '0.25rem 0.5rem', borderRadius: '4px', fontSize: '0.75rem', fontWeight: '500' }}>
-          {tool.category}
-        </span>
+        <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
+          <span style={{ backgroundColor: 'rgba(255,255,255,0.08)', padding: '0.25rem 0.5rem', borderRadius: '4px', fontSize: '0.75rem', fontWeight: '500' }}>
+            {tool.category}
+          </span>
+          {tool.upvotes >= 10 && (
+            <span style={{ backgroundColor: 'rgba(239, 68, 68, 0.1)', color: '#ef4444', padding: '0.25rem 0.5rem', borderRadius: '4px', fontSize: '0.75rem', fontWeight: '700' }}>
+              🔥 Trending
+            </span>
+          )}
+        </div>
       </div>
       
       <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', flexGrow: 1, lineHeight: 1.5 }}>{tool.description}</p>

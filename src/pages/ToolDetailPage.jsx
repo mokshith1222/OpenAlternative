@@ -5,6 +5,7 @@ import { supabase } from '../supabaseClient';
 import { ArrowLeft, Star, Server, ExternalLink, FileText } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
+import ToolCard from '../components/ToolCard';
 
 export default function ToolDetailPage() {
   const { id } = useParams();
@@ -12,12 +13,25 @@ export default function ToolDetailPage() {
   const [loading, setLoading] = useState(true);
   const [readme, setReadme] = useState(null);
   const [readmeLoading, setReadmeLoading] = useState(false);
+  const [similarTools, setSimilarTools] = useState([]);
 
   useEffect(() => {
     async function fetchToolAndReadme() {
       const { data } = await supabase.from('tools').select('*').eq('id', id).single();
       if (data) {
         setTool(data);
+        
+        // Fetch similar tools
+        const { data: similarData } = await supabase
+          .from('tools')
+          .select('*')
+          .eq('category', data.category)
+          .neq('id', data.id)
+          .limit(3);
+          
+        if (similarData) {
+          setSimilarTools(similarData);
+        }
         
         // Fetch README if githubRepo exists
         if (data.githubRepo && data.githubRepo !== 'N/A') {
@@ -170,6 +184,18 @@ export default function ToolDetailPage() {
             ) : (
               <p style={{ color: 'var(--text-muted)' }}>No documentation found for this repository.</p>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* Similar Tools Section */}
+      {similarTools.length > 0 && (
+        <div style={{ marginTop: '5rem', borderTop: '1px solid var(--card-border)', paddingTop: '4rem' }}>
+          <h2 style={{ fontSize: '2rem', color: 'var(--text-primary)', marginBottom: '2rem' }}>Similar Alternatives</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1.5rem' }}>
+            {similarTools.map(t => (
+              <ToolCard key={t.id} tool={t} />
+            ))}
           </div>
         </div>
       )}
