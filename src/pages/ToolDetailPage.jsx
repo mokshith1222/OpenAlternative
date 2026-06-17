@@ -125,7 +125,7 @@ export default function ToolDetailPage() {
         </div>
 
         <div style={{ display: 'flex', gap: '2rem', padding: '2rem 0', borderTop: '1px solid var(--card-border)', borderBottom: '1px solid var(--card-border)' }}>
-          {tool.githubStars !== 'N/A' && (
+          {tool.githubStars && tool.githubStars !== 'N/A' && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
               <span style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>GitHub Stars</span>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '1.25rem', fontWeight: '600' }}>
