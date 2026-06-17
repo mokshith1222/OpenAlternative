@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect } from 'react';
 import { supabase } from '../supabaseClient';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import HeroSearch from '../components/HeroSearch';
 import CategoryPills from '../components/CategoryPills';
 import FeaturedAlternative from '../components/FeaturedAlternative';
@@ -10,6 +10,7 @@ import { getBroadCategory } from '../utils/categoryMapping';
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const sortParam = searchParams.get('sort');
   const categoryParam = searchParams.get('category');
 
@@ -79,9 +80,33 @@ export default function Home() {
     return result;
   }, [toolsData, searchQuery, activeCategory, sortParam]);
 
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    if (!searchQuery.trim()) return;
+
+    // 1. Check if it exactly matches a proprietary software name
+    const exactCategoryMatch = toolsData.find(t => t.replaces && t.replaces.toLowerCase() === searchQuery.trim().toLowerCase());
+    if (exactCategoryMatch) {
+      navigate(`/alternative/${searchQuery.trim().toLowerCase().replace(/\s+/g, '-')}`);
+      return;
+    }
+
+    // 2. Check if it exactly matches an open source tool name
+    const exactToolMatch = toolsData.find(t => t.name.toLowerCase() === searchQuery.trim().toLowerCase());
+    if (exactToolMatch) {
+      navigate(`/tool/${exactToolMatch.id}`);
+      return;
+    }
+
+    // 3. Otherwise navigate to the top result in the filtered grid
+    if (filteredTools.length > 0) {
+      navigate(`/tool/${filteredTools[0].id}`);
+    }
+  };
+
   return (
     <div className="container">
-      <HeroSearch searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+      <HeroSearch searchQuery={searchQuery} setSearchQuery={setSearchQuery} onSubmit={handleSearchSubmit} />
       
       {!searchQuery && activeCategory === 'All' && sortParam !== 'trending' && (
         <div style={{ display: 'flex', justifyContent: 'center', gap: '4rem', marginBottom: '4rem', padding: '2rem 0', borderTop: '1px solid var(--card-border)', borderBottom: '1px solid var(--card-border)' }}>

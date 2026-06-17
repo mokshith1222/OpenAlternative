@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 
-export default function HeroSearch({ searchQuery, setSearchQuery }) {
+export default function HeroSearch({ searchQuery, setSearchQuery, onSubmit }) {
   const [currentToolIndex, setCurrentToolIndex] = useState(0);
   const inputRef = useRef(null);
   const tools = ['Shopify', 'Notion', 'Jira', 'Slack', 'Figma', 'Salesforce', 'Airtable', 'Zendesk'];
@@ -41,7 +41,8 @@ export default function HeroSearch({ searchQuery, setSearchQuery }) {
         Discover and deploy free, self-hostable replacements for the world's most expensive proprietary software.
       </p>
       <div style={{ width: '100%', maxWidth: '600px', position: 'relative' }}>
-        <input 
+        <form onSubmit={onSubmit} style={{ width: '100%', margin: 0 }}>
+          <input 
           ref={inputRef}
           type="text" 
           value={searchQuery}
@@ -62,6 +63,7 @@ export default function HeroSearch({ searchQuery, setSearchQuery }) {
           onFocus={(e) => e.target.style.borderColor = 'var(--accent)'}
           onBlur={(e) => e.target.style.borderColor = 'var(--card-border)'}
         />
+        </form>
         <div style={{ position: 'absolute', right: '1.5rem', top: '50%', transform: 'translateY(-50%)', display: 'flex', gap: '0.25rem', pointerEvents: 'none' }}>
           <span style={{ backgroundColor: 'rgba(255,255,255,0.1)', padding: '0.2rem 0.4rem', borderRadius: '4px', fontSize: '0.8rem', color: 'var(--text-muted)' }}>Ctrl</span>
           <span style={{ backgroundColor: 'rgba(255,255,255,0.1)', padding: '0.2rem 0.4rem', borderRadius: '4px', fontSize: '0.8rem', color: 'var(--text-muted)' }}>K</span>
