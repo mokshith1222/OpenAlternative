@@ -68,7 +68,7 @@ export default function ToolCard({ tool }) {
       <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', flexGrow: 1, lineHeight: 1.5 }}>{tool.description}</p>
       
       <div style={{ display: 'flex', gap: '1rem', color: 'var(--text-muted)', fontSize: '0.85rem', paddingTop: '1rem', borderTop: '1px solid var(--card-border)' }}>
-        {tool.githubStars && tool.githubStars !== 'N/A' && (
+        {tool.githubStars !== 'N/A' && (
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
             <Star size={14} /> {tool.githubStars}
           </div>
