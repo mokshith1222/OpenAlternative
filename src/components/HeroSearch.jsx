@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function HeroSearch({ searchQuery, setSearchQuery }) {
   const [currentToolIndex, setCurrentToolIndex] = useState(0);
@@ -65,6 +66,13 @@ export default function HeroSearch({ searchQuery, setSearchQuery }) {
           <span style={{ backgroundColor: 'rgba(255,255,255,0.1)', padding: '0.2rem 0.4rem', borderRadius: '4px', fontSize: '0.8rem', color: 'var(--text-muted)' }}>Ctrl</span>
           <span style={{ backgroundColor: 'rgba(255,255,255,0.1)', padding: '0.2rem 0.4rem', borderRadius: '4px', fontSize: '0.8rem', color: 'var(--text-muted)' }}>K</span>
         </div>
+      </div>
+      <div style={{ marginTop: '2.5rem', display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center' }}>
+        <span style={{ color: 'var(--text-muted)', fontSize: '0.95rem' }}>Popular Comparisons:</span>
+        <Link to="/alternative/notion" style={{ padding: '0.4rem 1.2rem', borderRadius: '100px', backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid var(--card-border)', fontSize: '0.9rem', color: 'var(--text-primary)', transition: 'all 0.2s' }} onMouseOver={e => { e.currentTarget.style.borderColor = 'var(--accent)'; e.currentTarget.style.backgroundColor = 'rgba(124, 58, 237, 0.1)'; }} onMouseOut={e => { e.currentTarget.style.borderColor = 'var(--card-border)'; e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.03)'; }}>Notion</Link>
+        <Link to="/alternative/slack" style={{ padding: '0.4rem 1.2rem', borderRadius: '100px', backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid var(--card-border)', fontSize: '0.9rem', color: 'var(--text-primary)', transition: 'all 0.2s' }} onMouseOver={e => { e.currentTarget.style.borderColor = 'var(--accent)'; e.currentTarget.style.backgroundColor = 'rgba(124, 58, 237, 0.1)'; }} onMouseOut={e => { e.currentTarget.style.borderColor = 'var(--card-border)'; e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.03)'; }}>Slack</Link>
+        <Link to="/alternative/jira" style={{ padding: '0.4rem 1.2rem', borderRadius: '100px', backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid var(--card-border)', fontSize: '0.9rem', color: 'var(--text-primary)', transition: 'all 0.2s' }} onMouseOver={e => { e.currentTarget.style.borderColor = 'var(--accent)'; e.currentTarget.style.backgroundColor = 'rgba(124, 58, 237, 0.1)'; }} onMouseOut={e => { e.currentTarget.style.borderColor = 'var(--card-border)'; e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.03)'; }}>Jira</Link>
+        <Link to="/alternative/shopify" style={{ padding: '0.4rem 1.2rem', borderRadius: '100px', backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid var(--card-border)', fontSize: '0.9rem', color: 'var(--text-primary)', transition: 'all 0.2s' }} onMouseOver={e => { e.currentTarget.style.borderColor = 'var(--accent)'; e.currentTarget.style.backgroundColor = 'rgba(124, 58, 237, 0.1)'; }} onMouseOut={e => { e.currentTarget.style.borderColor = 'var(--card-border)'; e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.03)'; }}>Shopify</Link>
       </div>
     </div>
   );
