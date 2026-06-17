@@ -126,16 +126,50 @@ export default function Home() {
         </div>
       )}
 
-      {/* SEO & AdSense Content Block */}
+      {/* Extensive About OpenAlternative Section */}
       {!searchQuery && activeCategory === 'All' && sortParam !== 'trending' && (
-        <div className="card-premium" style={{ padding: '2.5rem', marginBottom: '4rem', backgroundColor: 'var(--card-bg)' }}>
-          <h2 style={{ fontSize: '1.8rem', marginBottom: '1rem', color: 'var(--text-primary)' }}>Why Use Open Source Software?</h2>
-          <p style={{ fontSize: '1.1rem', color: 'var(--text-muted)', lineHeight: '1.8', marginBottom: '1.5rem' }}>
-            OpenAlternative is the internet's most comprehensive directory for discovering open-source alternatives to proprietary SaaS. As software subscription costs continue to rise and data privacy concerns grow, switching to self-hostable tools has never been more important. Open-source software gives you total ownership over your data, eliminates vendor lock-in, and allows you to customize the codebase to fit your exact business needs.
-          </p>
-          <p style={{ fontSize: '1.1rem', color: 'var(--text-muted)', lineHeight: '1.8' }}>
-            Whether you are looking for an open-source CRM, a privacy-focused analytics platform, or a self-hosted project management tool, our community-curated database maps thousands of commercial products to their free, open-source counterparts. Start taking back control of your software stack today.
-          </p>
+        <div style={{ marginBottom: '5rem' }}>
+          <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
+            <h2 style={{ fontSize: '2.5rem', fontWeight: '800', color: 'var(--text-primary)', marginBottom: '1rem', letterSpacing: '-0.02em' }}>What is OpenAlternative?</h2>
+            <p style={{ fontSize: '1.25rem', color: 'var(--text-muted)', maxWidth: '700px', margin: '0 auto', lineHeight: 1.6 }}>
+              The internet's most comprehensive, community-driven directory for discovering free, self-hostable, and open-source alternatives to proprietary SaaS.
+            </p>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
+            {/* Feature 1 */}
+            <div className="card-premium" style={{ padding: '2.5rem', backgroundColor: 'var(--card-bg)' }}>
+              <div style={{ width: '50px', height: '50px', borderRadius: '12px', backgroundColor: 'rgba(124, 58, 237, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.5rem', color: 'var(--accent)' }}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              </div>
+              <h3 style={{ fontSize: '1.3rem', color: 'var(--text-primary)', marginBottom: '1rem' }}>Discover Replacements</h3>
+              <p style={{ color: 'var(--text-muted)', lineHeight: 1.6 }}>
+                Search through our database of over 1,500+ commercial products and instantly find the best open-source tools that can replace them. Never pay expensive subscription fees again.
+              </p>
+            </div>
+
+            {/* Feature 2 */}
+            <div className="card-premium" style={{ padding: '2.5rem', backgroundColor: 'var(--card-bg)' }}>
+              <div style={{ width: '50px', height: '50px', borderRadius: '12px', backgroundColor: 'rgba(124, 58, 237, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.5rem', color: 'var(--accent)' }}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+              </div>
+              <h3 style={{ fontSize: '1.3rem', color: 'var(--text-primary)', marginBottom: '1rem' }}>Reclaim Data Privacy</h3>
+              <p style={{ color: 'var(--text-muted)', lineHeight: 1.6 }}>
+                By switching to self-hostable tools, you take back 100% ownership of your data. Deploy on your own servers, keep your intellectual property safe, and eliminate vendor lock-in forever.
+              </p>
+            </div>
+
+            {/* Feature 3 */}
+            <div className="card-premium" style={{ padding: '2.5rem', backgroundColor: 'var(--card-bg)' }}>
+              <div style={{ width: '50px', height: '50px', borderRadius: '12px', backgroundColor: 'rgba(124, 58, 237, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.5rem', color: 'var(--accent)' }}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+              </div>
+              <h3 style={{ fontSize: '1.3rem', color: 'var(--text-primary)', marginBottom: '1rem' }}>Read Live Documentation</h3>
+              <p style={{ color: 'var(--text-muted)', lineHeight: 1.6 }}>
+                We pull the absolute latest documentation, README files, and architecture diagrams directly from GitHub so you can evaluate technical requirements without ever leaving the app.
+              </p>
+            </div>
+          </div>
         </div>
       )}
 
