@@ -38,16 +38,17 @@ export default function ToolDetailPage() {
           setReadmeLoading(true);
           try {
             const res = await fetch(`https://api.github.com/repos/${data.githubRepo}/readme`);
-            if (res.ok) {
-              const json = await res.json();
-              if (json.download_url) {
-                const rawRes = await fetch(json.download_url);
-                if (rawRes.ok) {
-                  const text = await rawRes.text();
-                  setReadme(text);
-                }
+            const json = await res.json();
+            
+            if (json.content) {
+              // Decode base64, handling potential unicode characters gracefully
+              try {
+                const decoded = decodeURIComponent(escape(atob(json.content)));
+                setReadme(decoded);
+              } catch (err) {
+                setReadme(atob(json.content));
               }
-            } else if (res.status === 403) {
+            } else if (json.message && json.message.toLowerCase().includes('rate limit')) {
               setReadme("GitHub API rate limit exceeded. Please try again later.");
             }
           } catch (e) {
