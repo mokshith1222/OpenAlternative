@@ -50,6 +50,7 @@ export default function Header() {
         <nav style={{ display: 'none', gap: '2rem', alignItems: 'center' }} className="md:flex">
           <Link to="/" style={{ color: 'var(--text-primary)', fontSize: '0.95rem', fontWeight: '500' }}>Discover</Link>
           <Link to="/comparisons" style={{ color: 'var(--text-muted)', fontSize: '0.95rem', fontWeight: '500', transition: 'color 0.2s' }} onMouseOver={e => e.target.style.color = 'var(--text-primary)'} onMouseOut={e => e.target.style.color = 'var(--text-muted)'}>Comparisons</Link>
+          <Link to="/blog" style={{ color: 'var(--text-muted)', fontSize: '0.95rem', fontWeight: '500', transition: 'color 0.2s' }} onMouseOver={e => e.target.style.color = 'var(--text-primary)'} onMouseOut={e => e.target.style.color = 'var(--text-muted)'}>Blog</Link>
           <Link to="/categories" style={{ color: 'var(--text-muted)', fontSize: '0.95rem', fontWeight: '500', transition: 'color 0.2s' }} onMouseOver={e => e.target.style.color = 'var(--text-primary)'} onMouseOut={e => e.target.style.color = 'var(--text-muted)'}>Categories</Link>
           <Link to="/?sort=trending" style={{ color: 'var(--text-muted)', fontSize: '0.95rem', fontWeight: '500', transition: 'color 0.2s' }} onMouseOver={e => e.target.style.color = 'var(--text-primary)'} onMouseOut={e => e.target.style.color = 'var(--text-muted)'}>Trending</Link>
         </nav>
