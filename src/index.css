@@ -8,6 +8,18 @@
   --secondary-accent: #06b6d4;
   --text-primary: #fafafa;
   --text-muted: #a1a1aa;
+  --header-bg: rgba(9, 9, 11, 0.85);
+}
+
+:root[data-theme='light'] {
+  --bg-color: #f8fafc;
+  --card-bg: #ffffff;
+  --card-border: rgba(0, 0, 0, 0.08);
+  --accent: #6d28d9;
+  --secondary-accent: #0284c7;
+  --text-primary: #0f172a;
+  --text-muted: #64748b;
+  --header-bg: rgba(248, 250, 252, 0.85);
 }
 
 * {
@@ -53,7 +65,7 @@ a {
 }
 
 .skeleton {
-  background: linear-gradient(90deg, #111113 25%, #1a1a1f 50%, #111113 75%);
+  background: linear-gradient(90deg, var(--card-bg) 25%, rgba(124, 58, 237, 0.05) 50%, var(--card-bg) 75%);
   background-size: 1000px 100%;
   animation: shimmer 2s infinite linear;
   border-radius: 8px;

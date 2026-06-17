@@ -1,10 +1,18 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { Code, MessageSquare, Search, Plus } from 'lucide-react';
-import { useState } from 'react';
+import { Code, MessageSquare, Search, Plus, Moon, Sun } from 'lucide-react';
+import { useState, useEffect } from 'react';
 
 export default function Header() {
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
+  const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'dark');
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => setTheme(prev => prev === 'dark' ? 'light' : 'dark');
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -24,7 +32,7 @@ export default function Header() {
       top: 0, 
       zIndex: 100,
       padding: '1rem 0', 
-      backgroundColor: 'rgba(10, 10, 10, 0.75)',
+      backgroundColor: 'var(--header-bg)',
       backdropFilter: 'blur(12px)',
       WebkitBackdropFilter: 'blur(12px)',
       borderBottom: '1px solid rgba(255,255,255,0.05)',
@@ -49,8 +57,12 @@ export default function Header() {
         {/* Right Nav & Actions */}
         <div style={{ display: 'flex', gap: '1.25rem', alignItems: 'center' }}>
           
+          <button onClick={toggleTheme} style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', display: 'flex', alignItems: 'center', transition: 'color 0.2s' }} onMouseOver={e => e.currentTarget.style.color = 'var(--text-primary)'} onMouseOut={e => e.currentTarget.style.color = 'var(--text-muted)'}>
+            {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+          </button>
+
           {/* Socials */}
-          <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', borderRight: '1px solid var(--card-border)', paddingRight: '1.25rem' }}>
+          <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', borderRight: '1px solid var(--card-border)', paddingRight: '1.25rem', borderLeft: '1px solid var(--card-border)', paddingLeft: '1.25rem' }}>
             <a href="https://twitter.com" target="_blank" rel="noreferrer" style={{ color: 'var(--text-muted)', transition: 'color 0.2s' }} onMouseOver={e => e.target.style.color = '#1DA1F2'} onMouseOut={e => e.target.style.color = 'var(--text-muted)'}>
               <MessageSquare size={20} />
             </a>

@@ -3,6 +3,7 @@ import { supabase } from '../supabaseClient';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import HeroSearch from '../components/HeroSearch';
 import CategoryPills from '../components/CategoryPills';
+import NewsletterForm from '../components/NewsletterForm';
 import FeaturedAlternative from '../components/FeaturedAlternative';
 import ToolCard from '../components/ToolCard';
 import { getBroadCategory } from '../utils/categoryMapping';
@@ -207,6 +208,12 @@ export default function Home() {
           >
             Load More Tools ({filteredTools.length - displayCount} remaining)
           </button>
+        </div>
+      )}
+
+      {!searchQuery && activeCategory === 'All' && (
+        <div style={{ marginTop: '6rem', marginBottom: '2rem' }}>
+          <NewsletterForm />
         </div>
       )}
     </div>

@@ -11,6 +11,7 @@ import PrivacyPage from './pages/PrivacyPage';
 import TermsPage from './pages/TermsPage';
 import CategoriesPage from './pages/CategoriesPage';
 import ComparisonsPage from './pages/ComparisonsPage';
+import AdminDashboard from './pages/AdminDashboard';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -35,6 +36,7 @@ function App() {
           <Route path="/submit" element={<SubmitPage />} />
           <Route path="/categories" element={<CategoriesPage />} />
           <Route path="/comparisons" element={<ComparisonsPage />} />
+          <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/privacy" element={<PrivacyPage />} />
           <Route path="/terms" element={<TermsPage />} />
