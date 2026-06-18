@@ -1,0 +1,7 @@
+# OpenAlternative
+
+OpenAlternative is an open source directory for discovering open source alternatives to proprietary SaaS products.
+
+## Links
+- [Home](https://openalternative-delta.vercel.app/)
+- [GitHub](https://github.com/mokshith1222/OpenAlternative)

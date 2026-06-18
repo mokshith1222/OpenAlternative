@@ -55,7 +55,7 @@ export default function ComparisonsPage() {
       <Helmet>
         <title>All Open Source Comparisons - Find Alternatives to Paid Software</title>
         <meta name="description" content="Browse our complete directory of open-source alternatives to expensive proprietary software like Notion, Slack, Jira, and hundreds more." />
-        <link rel="canonical" href="https://openalternative.example.com/comparisons" />
+        <link rel="canonical" href="https://openalternative-delta.vercel.app/comparisons" />
         <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
       </Helmet>
       

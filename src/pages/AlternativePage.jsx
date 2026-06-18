@@ -36,7 +36,7 @@ export default function AlternativePage() {
       <Helmet>
         <title>Best Open Source Alternatives to {displayTitle} (2026)</title>
         <meta name="description" content={`Compare the best free and open-source alternatives to ${displayTitle}${alternatives.length > 0 ? ' including ' + alternatives.slice(0,3).map(a=>a.name).join(', ') : ''}.`} />
-        <link rel="canonical" href={`https://openalternative.example.com/alternative/${name}`} />
+        <link rel="canonical" href={`https://openalternative-delta.vercel.app/alternative/${name}`} />
         <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
       </Helmet>
       <Link to="/" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-muted)', marginBottom: '2rem', transition: 'color 0.2s' }} onMouseOver={e => e.currentTarget.style.color = 'var(--text-primary)'} onMouseOut={e => e.currentTarget.style.color = 'var(--text-muted)'}>

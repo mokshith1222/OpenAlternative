@@ -41,7 +41,7 @@ export default function Header() {
       <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         
         {/* Brand Logo */}
-        <Link to="/" style={{ fontSize: '1.5rem', fontWeight: '800', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+        <Link to="/" style={{ padding: '0.5rem', marginLeft: '-0.5rem', fontSize: '1.5rem', fontWeight: '800', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '0.5rem', borderRadius: '8px' }}>
           <div style={{ width: '28px', height: '28px', background: 'linear-gradient(135deg, var(--accent) 0%, #3b82f6 100%)', borderRadius: '6px' }}></div>
           Open<span style={{ color: 'var(--text-muted)' }}>Alternative</span>
         </Link>
@@ -58,16 +58,16 @@ export default function Header() {
         {/* Right Nav & Actions */}
         <div style={{ display: 'flex', gap: '1.25rem', alignItems: 'center' }}>
           
-          <button onClick={toggleTheme} style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', display: 'flex', alignItems: 'center', transition: 'color 0.2s' }} onMouseOver={e => e.currentTarget.style.color = 'var(--text-primary)'} onMouseOut={e => e.currentTarget.style.color = 'var(--text-muted)'}>
+          <button onClick={toggleTheme} aria-label="Toggle theme" style={{ padding: '0.5rem', background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', display: 'flex', alignItems: 'center', transition: 'color 0.2s', borderRadius: '8px' }} onMouseOver={e => e.currentTarget.style.color = 'var(--text-primary)'} onMouseOut={e => e.currentTarget.style.color = 'var(--text-muted)'}>
             {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
           </button>
 
           {/* Socials */}
           <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', borderRight: '1px solid var(--card-border)', paddingRight: '1.25rem', borderLeft: '1px solid var(--card-border)', paddingLeft: '1.25rem' }}>
-            <a href="https://twitter.com" target="_blank" rel="noreferrer" style={{ color: 'var(--text-muted)', transition: 'color 0.2s' }} onMouseOver={e => e.target.style.color = '#1DA1F2'} onMouseOut={e => e.target.style.color = 'var(--text-muted)'}>
+            <a href="https://twitter.com" target="_blank" rel="noreferrer" aria-label="Twitter" style={{ padding: '0.5rem', color: 'var(--text-muted)', transition: 'color 0.2s', borderRadius: '8px' }} onMouseOver={e => e.currentTarget.style.color = '#1DA1F2'} onMouseOut={e => e.currentTarget.style.color = 'var(--text-muted)'}>
               <MessageSquare size={20} />
             </a>
-            <a href="https://github.com/openalternative" target="_blank" rel="noreferrer" style={{ color: 'var(--text-muted)', transition: 'color 0.2s' }} onMouseOver={e => e.target.style.color = 'var(--text-primary)'} onMouseOut={e => e.target.style.color = 'var(--text-muted)'}>
+            <a href="https://github.com/mokshith1222/OpenAlternative" target="_blank" rel="noreferrer" aria-label="GitHub" style={{ padding: '0.5rem', color: 'var(--text-muted)', transition: 'color 0.2s', borderRadius: '8px' }} onMouseOver={e => e.currentTarget.style.color = 'var(--text-primary)'} onMouseOut={e => e.currentTarget.style.color = 'var(--text-muted)'}>
               <Code size={20} />
             </a>
           </div>

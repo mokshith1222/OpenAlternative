@@ -107,7 +107,7 @@ export default function ToolDetailPage() {
       <Helmet>
         <title>{tool.name} - Open Source Alternative to {tool.replaces} (2026)</title>
         <meta name="description" content={`Read our review of ${tool.name}, the best free and open-source alternative to ${tool.replaces}.`} />
-        <link rel="canonical" href={`https://openalternative.example.com/tool/${tool.id}`} />
+        <link rel="canonical" href={`https://openalternative-delta.vercel.app/tool/${tool.id}`} />
         <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
       </Helmet>
 

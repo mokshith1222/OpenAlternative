@@ -39,7 +39,7 @@ export default function ToolCard({ tool }) {
               borderRadius: '8px',
               padding: '0.5rem',
               cursor: hasUpvoted ? 'default' : 'pointer',
-              color: hasUpvoted ? 'var(--accent)' : 'var(--text-muted)',
+              color: hasUpvoted ? 'var(--text-primary)' : 'var(--text-muted)',
               transition: 'all 0.2s',
               minWidth: '50px'
             }}
@@ -86,7 +86,7 @@ export default function ToolCard({ tool }) {
           marginTop: 'auto',
           padding: '0.75rem',
           backgroundColor: 'rgba(124, 58, 237, 0.1)',
-          color: 'var(--accent)',
+          color: 'var(--text-primary)',
           textAlign: 'center',
           borderRadius: '8px',
           fontWeight: '600',
@@ -102,7 +102,7 @@ export default function ToolCard({ tool }) {
         }}
         onMouseOut={(e) => {
           e.currentTarget.style.backgroundColor = 'rgba(124, 58, 237, 0.1)';
-          e.currentTarget.style.color = 'var(--accent)';
+          e.currentTarget.style.color = 'var(--text-primary)';
         }}
       >
         View {tool.name} <ExternalLink size={16} />

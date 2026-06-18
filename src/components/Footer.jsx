@@ -54,7 +54,7 @@ export default function Footer() {
             </p>
             
             <div>
-              <h4 style={{ color: 'var(--text-primary)', fontSize: '0.9rem', fontWeight: '600', marginBottom: '1rem' }}>Subscribe to our Newsletter</h4>
+              <h2 style={{ color: 'var(--text-primary)', fontSize: '0.9rem', fontWeight: '600', marginBottom: '1rem' }}>Subscribe to our Newsletter</h2>
               {status === 'success' ? (
                 <p style={{ color: '#10b981', fontSize: '0.9rem' }}>Thanks for subscribing!</p>
               ) : (
@@ -81,6 +81,7 @@ export default function Footer() {
                       />
                     </div>
                     <button 
+                      aria-label="Subscribe"
                       type="submit"
                       disabled={status === 'loading'}
                       style={{ 
@@ -110,7 +111,7 @@ export default function Footer() {
 
           {/* Column 2: Top Categories */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-            <h4 style={{ color: 'var(--text-primary)', fontWeight: '600', fontSize: '1rem', marginBottom: '0.5rem' }}>Categories</h4>
+            <h2 style={{ color: 'var(--text-primary)', fontWeight: '600', fontSize: '1rem', marginBottom: '0.5rem' }}>Categories</h2>
             {['Database & Backend', 'DevOps & Infrastructure', 'Security & Identity', 'Development & APIs', 'Analytics & Data'].map(cat => (
               <a href="#" key={cat} style={{ color: 'var(--text-muted)', fontSize: '0.9rem', transition: 'color 0.2s', textDecoration: 'none' }} onMouseOver={e => e.target.style.color = 'var(--text-primary)'} onMouseOut={e => e.target.style.color = 'var(--text-muted)'}>
                 {cat}
@@ -120,7 +121,7 @@ export default function Footer() {
 
           {/* Column 3: Top Replacements */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-            <h4 style={{ color: 'var(--text-primary)', fontWeight: '600', fontSize: '1rem', marginBottom: '0.5rem' }}>Top Replacements</h4>
+            <h2 style={{ color: 'var(--text-primary)', fontWeight: '600', fontSize: '1rem', marginBottom: '0.5rem' }}>Top Replacements</h2>
             {['Notion', 'Slack', 'Photoshop', 'Jira', 'Airtable'].map(saas => (
               <Link to={`/alternative/${saas.toLowerCase()}`} key={saas} style={{ color: 'var(--text-muted)', fontSize: '0.9rem', transition: 'color 0.2s', textDecoration: 'none' }} onMouseOver={e => e.target.style.color = 'var(--accent)'} onMouseOut={e => e.target.style.color = 'var(--text-muted)'}>
                 {saas} Alternatives
@@ -130,7 +131,7 @@ export default function Footer() {
 
           {/* Column 4: Resources */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-            <h4 style={{ color: 'var(--text-primary)', fontWeight: '600', fontSize: '1rem', marginBottom: '0.5rem' }}>Resources</h4>
+            <h2 style={{ color: 'var(--text-primary)', fontWeight: '600', fontSize: '1rem', marginBottom: '0.5rem' }}>Resources</h2>
             <Link to="/blog" style={{ color: 'var(--text-muted)', fontSize: '0.9rem', transition: 'color 0.2s', textDecoration: 'none' }} onMouseOver={e => e.target.style.color = 'var(--text-primary)'} onMouseOut={e => e.target.style.color = 'var(--text-muted)'}>Blog</Link>
             <Link to="/about" style={{ color: 'var(--text-muted)', fontSize: '0.9rem', transition: 'color 0.2s', textDecoration: 'none' }} onMouseOver={e => e.target.style.color = 'var(--text-primary)'} onMouseOut={e => e.target.style.color = 'var(--text-muted)'}>About Us</Link>
             <Link to="/submit" style={{ color: 'var(--text-muted)', fontSize: '0.9rem', transition: 'color 0.2s', textDecoration: 'none' }} onMouseOver={e => e.target.style.color = 'var(--text-primary)'} onMouseOut={e => e.target.style.color = 'var(--text-muted)'}>Submit a Tool</Link>
@@ -154,8 +155,8 @@ export default function Footer() {
             &copy; {new Date().getFullYear()} OpenAlternative. All rights reserved.
           </div>
           <div style={{ display: 'flex', gap: '1rem' }}>
-            <a href="https://twitter.com" target="_blank" rel="noreferrer" style={{ color: 'var(--text-muted)', transition: 'color 0.2s' }} onMouseOver={e => e.target.style.color = 'var(--text-primary)'} onMouseOut={e => e.target.style.color = 'var(--text-muted)'}><MessageSquare size={18} /></a>
-            <a href="https://github.com" target="_blank" rel="noreferrer" style={{ color: 'var(--text-muted)', transition: 'color 0.2s' }} onMouseOver={e => e.target.style.color = 'var(--text-primary)'} onMouseOut={e => e.target.style.color = 'var(--text-muted)'}><Code size={18} /></a>
+            <a href="https://twitter.com" target="_blank" rel="noreferrer" aria-label="Twitter" style={{ padding: '0.5rem', color: 'var(--text-muted)', transition: 'color 0.2s', borderRadius: '8px' }} onMouseOver={e => e.currentTarget.style.color = 'var(--text-primary)'} onMouseOut={e => e.currentTarget.style.color = 'var(--text-muted)'}><MessageSquare size={18} /></a>
+            <a href="https://github.com/mokshith1222/OpenAlternative" target="_blank" rel="noreferrer" aria-label="GitHub" style={{ padding: '0.5rem', color: 'var(--text-muted)', transition: 'color 0.2s', borderRadius: '8px' }} onMouseOver={e => e.currentTarget.style.color = 'var(--text-primary)'} onMouseOut={e => e.currentTarget.style.color = 'var(--text-muted)'}><Code size={18} /></a>
           </div>
         </div>
 
