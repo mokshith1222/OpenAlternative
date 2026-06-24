@@ -50,7 +50,9 @@ export default function ToolCard({ tool }) {
           
           <div>
             <h3 style={{ fontSize: '1.25rem', marginBottom: '0.25rem' }}>{tool.name}</h3>
-            <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>Replaces {tool.replaces}</span>
+            <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+              Replaces <Link to={`/alternative/${tool.replaces?.toLowerCase().replace(/\s+/g, '-')}`} style={{ color: 'var(--text-primary)', textDecoration: 'underline' }}>{tool.replaces}</Link>
+            </span>
           </div>
         </div>
         <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap' }}>

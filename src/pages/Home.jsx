@@ -112,6 +112,13 @@ export default function Home() {
         <title>OpenAlternative | 1500+ Open Source Alternatives</title>
         <meta name="description" content="Search our directory of 1,500+ commercial products and find the best free, self-hosted open-source replacements." />
         <link rel="canonical" href="https://openalternative-delta.vercel.app/" />
+        <meta property="og:title" content="OpenAlternative | 1500+ Open Source Alternatives" />
+        <meta property="og:description" content="Search our directory of 1,500+ commercial products and find the best free, self-hosted open-source replacements." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://openalternative-delta.vercel.app/" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="OpenAlternative | 1500+ Open Source Alternatives" />
+        <meta name="twitter:description" content="Search our directory of 1,500+ commercial products and find the best free, self-hosted open-source replacements." />
       </Helmet>
       
       <HeroSearch searchQuery={searchQuery} setSearchQuery={setSearchQuery} onSubmit={handleSearchSubmit} />
